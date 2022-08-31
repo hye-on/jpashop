@@ -3,6 +3,8 @@ package jpabook.jpashop;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
+//돈과 관련된 중요한 것이고 데이터가 항상 맞아야되면 외래키를 거는 것에 대해서 고민할 필요가 있다. 
 @SpringBootApplication
 public class JpashopApplication {
 

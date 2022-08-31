@@ -9,24 +9,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name ="orders")
-@Getter @Setter
+@Table(name = "orders")
+@Getter
+@Setter
 public class Order {
 
     @Id
     @GeneratedValue
-    @Column(name ="order_id")
+    @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name ="member_id") //매핑을 뭘로 할거냐
+    @ManyToOne(fetch = FetchType.LAZY)//ManyToOne은 기본값이 EAGER라서 바꿔줘야한다.
+    @JoinColumn(name = "member_id") //매핑을 뭘로 할거냐
     private Member member;
 
-    private List<OrderItem> orderItems= new ArrayList<>();
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
     private LocalDateTime orderDate;//주문시간
 
-    private  OrderStatus status;//주문상태 [ORDER,CANCEL]
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;//주문상태 [ORDER,CANCEL]
+
+    //==연관관계 메서드==// 원자적으로 묶는다.
+    public void setMember(Member member) {
+        this.member = member;
+        member.getOrders().add(this);
+    }
+
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
+        delivery.setOrder(this);
+    }
 }
+

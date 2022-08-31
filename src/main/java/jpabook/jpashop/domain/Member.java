@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,7 +23,5 @@ public class Member {
     private Address address;
 
     @OneToMany(mappedBy = "member")     //연관관계 거울을 나타냄. Order테이블에 있는 member 필드에 의해 매핑됨. 읽기전용
-   private List<Order> orderList;
-
-
+   private List<Order> orders= new ArrayList<>();
 }
