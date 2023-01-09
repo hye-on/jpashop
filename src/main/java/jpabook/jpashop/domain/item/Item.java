@@ -19,7 +19,7 @@ import java.util.List;
 public abstract class Item {
 
     //상속관계 매핑
-   @Id
+    @Id
     @GeneratedValue
     @Column(name="item_id")
     private Long id;
